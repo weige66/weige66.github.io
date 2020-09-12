@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://weige66.github.io//favicon.ico?v=1599882667618">
+<link rel="shortcut icon" href="https://weige66.github.io//favicon.ico?v=1599889720242">
 <link rel="stylesheet" href="https://weige66.github.io//styles/main.css">
 
 
@@ -28,7 +28,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://weige66.github.io/">
-        <img src="https://weige66.github.io//images/avatar.png?v=1599882667618" class="site-logo">
+        <img src="https://weige66.github.io//images/avatar.png?v=1599889720242" class="site-logo">
         <h1 class="site-title">正威</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -67,11 +67,23 @@
     <div class="social-container">
       
         
-      
+          <a class="social-link" href="https://github.com/weige66" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
         
       
         
       
+        
+          <a class="social-link" href="https://weibo.com/u/5171028034" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/nuo-sen-de-zhu-54" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
         
       
         
@@ -92,18 +104,41 @@
           
             <article class="post-item">
               <div class="left">
-                <a href="https://weige66.github.io/post/flex_layout/">
+                <a href="https://weige66.github.io/js_method/">
+                  <h2 class="post-title">防抖和节流</h2>
+                </a>
+                <div class="post-date">
+                  2020-03-21
+                </div>
+                <div class="post-abstract">
+                  <h4 id="防抖">防抖：</h4>
+<p>当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://weige66.github.io/js_method/">
+                  <div class="feature-container" style="background-image: url('https://weige66.github.io//post-images/js_method.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://weige66.github.io/flex_layout/">
                   <h2 class="post-title">flex布局</h2>
                 </a>
                 <div class="post-date">
                   2020-03-08
                 </div>
                 <div class="post-abstract">
-                  
+                  <p><strong>flex布局的原理:</strong> 通过给父盒子添加flex属性来控制子盒子的位置和排列方式</p>
+
                 </div>
               </div>
               
-                <a class="right" href="https://weige66.github.io/post/flex_layout/">
+                <a class="right" href="https://weige66.github.io/flex_layout/">
                   <div class="feature-container" style="background-image: url('https://weige66.github.io//post-images/flex_layout.jpeg')">
                   </div>
                 </a>
@@ -112,7 +147,7 @@
           
             <article class="post-item">
               <div class="left">
-                <a href="https://weige66.github.io/post/hello-gridea/">
+                <a href="https://weige66.github.io/hello-gridea/">
                   <h2 class="post-title">Hello Gridea</h2>
                 </a>
                 <div class="post-date">
@@ -125,7 +160,7 @@
                 </div>
               </div>
               
-                <a class="right" href="https://weige66.github.io/post/hello-gridea/">
+                <a class="right" href="https://weige66.github.io/hello-gridea/">
                   <div class="feature-container" style="background-image: url('https://weige66.github.io//post-images/hello-gridea.png')">
                   </div>
                 </a>
@@ -156,6 +191,11 @@ var app = new Vue({
 
 </script>
 
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
 
 
 

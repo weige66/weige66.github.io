@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://weige66.github.io/</id>
     <title>正威</title>
-    <updated>2020-09-12T03:51:13.422Z</updated>
+    <updated>2020-09-12T08:32:09.034Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://weige66.github.io/"/>
     <link rel="self" href="https://weige66.github.io/atom.xml"/>
@@ -11,12 +11,72 @@
     <icon>https://weige66.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 正威</rights>
     <entry>
+        <title type="html"><![CDATA[防抖和节流]]></title>
+        <id>https://weige66.github.io/js_method/</id>
+        <link href="https://weige66.github.io/js_method/">
+        </link>
+        <updated>2020-03-21T12:45:08.000Z</updated>
+        <summary type="html"><![CDATA[<h4 id="防抖">防抖：</h4>
+<p>当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h4 id="防抖">防抖：</h4>
+<p>当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</p>
+<!-- more -->
+<pre><code class="language-js">let input =document.querySelector('input')
+    function ajax(param) {
+        console.log(param);
+    }
+    input.addEventListener('input',(e) =&gt; {
+         debounceAjax(e.target.value)
+    })
+    function debounce(fn,wait) {
+        let timer = null
+        let that = this
+        return function(param) {  
+            clearTimeout(timer)
+            timer = setTimeout(() =&gt; {
+            fn.call(that,param)
+            },wait)
+        }      
+    }
+let debounceAjax = debounce(ajax,1000)
+</code></pre>
+<h4 id="节流">节流：</h4>
+<p>当持续触发事件时，保证一定时间段内只调用一次事件处理函数。</p>
+<pre><code class="language-js">let btn = document.querySelector('button')
+    function ajax(param) {
+        console.log(param);
+    }
+    btn.addEventListener('click',() =&gt; {
+            throttleAjax('节流!')
+    })
+    function Throttle(cb,wait) {
+        let flag = true
+        let that = this
+        return function(param){
+            if(flag) {
+                flag = false
+                setTimeout(() =&gt; {
+                    cb.call(that,param)
+                    flag = true
+                },wait)
+            }
+        }
+    }
+let throttleAjax = Throttle(ajax,1000)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[flex布局]]></title>
-        <id>https://weige66.github.io/post/flex_layout/</id>
-        <link href="https://weige66.github.io/post/flex_layout/">
+        <id>https://weige66.github.io/flex_layout/</id>
+        <link href="https://weige66.github.io/flex_layout/">
         </link>
         <updated>2020-03-08T03:37:41.000Z</updated>
+        <summary type="html"><![CDATA[<p><strong>flex布局的原理:</strong> 通过给父盒子添加flex属性来控制子盒子的位置和排列方式</p>
+]]></summary>
         <content type="html"><![CDATA[<p><strong>flex布局的原理:</strong> 通过给父盒子添加flex属性来控制子盒子的位置和排列方式</p>
+<!-- more -->
 <p><strong>flex六个属性:</strong></p>
 <blockquote>
 <p>flex-direction<br>
@@ -100,8 +160,8 @@ stretch（默认值）：轴线占满整个交叉轴。</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://weige66.github.io/post/hello-gridea/</id>
-        <link href="https://weige66.github.io/post/hello-gridea/">
+        <id>https://weige66.github.io/hello-gridea/</id>
+        <link href="https://weige66.github.io/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>

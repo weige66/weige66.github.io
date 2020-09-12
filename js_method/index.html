@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>gridea | 正威</title>
+<title>防抖和节流 | 正威</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,7 +18,12 @@
 
 
 
-    <meta name="description" content="&lt;div&gt;众里寻他千百度，&lt;br /&gt;蓦然回首，那人却在，灯火阑珊处。&lt;/div&gt;">
+    <meta name="description" content="防抖：
+当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。
+
+let input =document.querySelector('input')
+    fu..." />
+    <meta name="keywords" content="js" />
   </head>
   <body>
     <div id="app" class="main">
@@ -100,35 +105,85 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: gridea</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://weige66.github.io/hello-gridea/">
-                  <h2 class="post-title">Hello Gridea</h2>
-                </a>
-                <div class="post-date">
-                  2018-12-12
-                </div>
-                <div class="post-abstract">
-                  <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-
-                </div>
+          <div class="post-detail">
+            <h2 class="post-title">防抖和节流</h2>
+            <div class="post-date">2020-03-21</div>
+            
+              <div class="feature-container" style="background-image: url('https://weige66.github.io//post-images/js_method.jpg')">
               </div>
-              
-                <a class="right" href="https://weige66.github.io/hello-gridea/">
-                  <div class="feature-container" style="background-image: url('https://weige66.github.io//post-images/hello-gridea.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
+            
+            <div class="post-content" v-pre>
+              <h4 id="防抖">防抖：</h4>
+<p>当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次，如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</p>
+<!-- more -->
+<pre><code class="language-js">let input =document.querySelector('input')
+    function ajax(param) {
+        console.log(param);
+    }
+    input.addEventListener('input',(e) =&gt; {
+         debounceAjax(e.target.value)
+    })
+    function debounce(fn,wait) {
+        let timer = null
+        let that = this
+        return function(param) {  
+            clearTimeout(timer)
+            timer = setTimeout(() =&gt; {
+            fn.call(that,param)
+            },wait)
+        }      
+    }
+let debounceAjax = debounce(ajax,1000)
+</code></pre>
+<h4 id="节流">节流：</h4>
+<p>当持续触发事件时，保证一定时间段内只调用一次事件处理函数。</p>
+<pre><code class="language-js">let btn = document.querySelector('button')
+    function ajax(param) {
+        console.log(param);
+    }
+    btn.addEventListener('click',() =&gt; {
+            throttleAjax('节流!')
+    })
+    function Throttle(cb,wait) {
+        let flag = true
+        let that = this
+        return function(param){
+            if(flag) {
+                flag = false
+                setTimeout(() =&gt; {
+                    cb.call(that,param)
+                    flag = true
+                },wait)
+            }
+        }
+    }
+let throttleAjax = Throttle(ajax,1000)
+</code></pre>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://weige66.github.io/tag/0_OOBuiTB/" class="tag">
+                    js
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://weige66.github.io/flex_layout/">
+                  <h3 class="post-title">
+                    flex布局
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>
