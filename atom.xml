@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://weige66.github.io/</id>
     <title>正威</title>
-    <updated>2020-09-28T07:02:36.663Z</updated>
+    <updated>2020-09-28T07:03:50.361Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://weige66.github.io/"/>
     <link rel="self" href="https://weige66.github.io/atom.xml"/>
@@ -11,6 +11,88 @@
     <logo>https://weige66.github.io/images/avatar.png</logo>
     <icon>https://weige66.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 正威</rights>
+    <entry>
+        <title type="html"><![CDATA[Nodejs笔记（一）]]></title>
+        <id>https://weige66.github.io/nodejs-bi-ji-yi/</id>
+        <link href="https://weige66.github.io/nodejs-bi-ji-yi/">
+        </link>
+        <updated>2020-09-25T03:15:54.000Z</updated>
+        <summary type="html"><![CDATA[<p>官网下载安装nodejs 下载地址：https://nodejs.org/zh-cn/download/</p>
+<p>安装完成后可在命令行窗口输入 node -v 和 npm -v  查看node和npm的版本型号，如果没有标明安装失败。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>官网下载安装nodejs 下载地址：https://nodejs.org/zh-cn/download/</p>
+<p>安装完成后可在命令行窗口输入 node -v 和 npm -v  查看node和npm的版本型号，如果没有标明安装失败。</p>
+<!-- more -->
+<p>一、实现hello word<br>
+文件夹创建 hello_word.js文件，通过vscode打开。</p>
+<pre><code class="language-js">var http = require(&quot;http&quot;)
+http.createServer(function(req,res){  //回调函数
+    // req 请求参数  res 返回参数
+    res.writeHead(200,{'Content-Type':'text/html'});  //返回头
+    res.write(&quot;holloe  world&quot;)    // 返回内容
+    res.end(&quot;结束&quot;);  // 返回 结束
+}).listen(8000);
+ // 命令行输入 node hello_word.js 回车
+ // 通过访问localhost:8000
+</code></pre>
+<p>二、模块的调用</p>
+<pre><code class="language-js">//  创建外部js文件，通过  module.export  = fn 导出
+    function fn() {
+        console.log('打印')
+    }
+    // 在要调用的nodejs文件头部导入外部js文件
+    let fn = require('./model')
+</code></pre>
+<p>三、从URL中获取路由的信息</p>
+<pre><code class="language-js">var http = require(&quot;http&quot;)
+var url = require('url')   // node内部自带url 的使用
+// 导入文件 fn  fn(req.res) {
+    //  res.write('我是调用')
+//  }
+http.createServer(function(req,res){  //回调函数
+    // req 请求参数  res 返回参数
+    res.writeHead(200,{'Content-Type':'text/html'});  //返回头
+    let pathname = url.parse(req.url).pathname      
+      // pathname 就是拿到的路径名称 路径前面带有斜杠 /
+    pathname = pathname.replace(/\//, ' ')   // 替换 / 的正则
+    // fn[pathname](req,res)  就可以拿到相应的信息
+     console.log(pathname)
+    res.end(&quot;结束&quot;);  // 返回 结束
+}).listen(8000);
+ // 命令行输入 node hello_word.js 回车
+ // 通过访问localhost:8000
+</code></pre>
+<p>四、读取文件</p>
+<pre><code class="language-js">// nodejs内部fs的使用（文件系统）
+fs.readFile(path, err, data =&gt; {  // path 是文件的路径  错误返回err ， 正确返回data   data为文件的内容   readFile 为异步方法   readFileSync（）为同步方法
+        if(err) {
+            console.log('错误！')
+        } else {
+            console.log(data);
+        }
+})
+</code></pre>
+<p>五、写文件</p>
+<pre><code class="language-js">fs.writeFile(path,data, err =&gt; {  // writeFileSync 同步操作
+        if(err) {
+            console.log('错误！')
+        } else {
+            console.log(data); // 文件保存成功后的打印
+        }
+})
+</code></pre>
+<p>六、读取图片</p>
+<pre><code class="language-js">fs.readFile(path, 'binary',data, err =&gt; {  // writeFileSync 同步操作
+        if(err) {
+            console.log('错误！')
+        } else {
+            res.write(data, 'binary')
+            console.log(data); // 读取成功后的打印
+        }
+})
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[防抖和节流]]></title>
         <id>https://weige66.github.io/js_method/</id>
