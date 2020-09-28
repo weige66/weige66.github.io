@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>封装axios | 正威</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://weige66.github.io//favicon.ico?v=1601285525274">
+<link rel="stylesheet" href="https://weige66.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="import axios from &quot;axios&quot;;
+import qs from &quot;qs&quot;; //处理参数
+import router from '../router'; //引入路由
+import..." />
+    <meta name="keywords" content="axios" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://weige66.github.io/">
+        <img src="https://weige66.github.io//images/avatar.png?v=1601285525274" class="site-logo">
+        <h1 class="site-title">正威</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/weige66" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/u/5171028034" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/nuo-sen-de-zhu-54" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=38576323&auto=1&height=66"></iframe><br />
+<div>众里寻他千百度，<br />蓦然回首，那人却在，灯火阑珊处。</div>
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://weige66.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">封装axios</h2>
+            <div class="post-date">2020-09-28</div>
+            
+              <div class="feature-container" style="background-image: url('https://weige66.github.io//post-images/feng-zhuang-axios.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <pre><code class="language-js">import axios from &quot;axios&quot;;
+import qs from &quot;qs&quot;; //处理参数
+import router from '../router'; //引入路由
+import { Loading , Message} from 'element-ui';
+
+let loading = null;
+
+//开始加载动画
+function openLoading(){
+  loading = Loading.service({
+    lock:true,
+    text:'拼命加载中...',
+    background:'rgba(0,0,0,.7)'
+  });
+}
+
+//关闭加载动画
+function closeLoading(){
+  loading.close();
+}
+
+//添加请求拦截器
+axios.interceptors.request.use(
+  config =&gt; {
+    //加载动画
+    openLoading()
+    if(localStorage.sessionId){ //如果我的sessionId存在(sessionId其实就是token)
+      // 设置统一的请求header
+      config.headers.Authorization = localStorage.sessionId //授权（每次请求把sessionId带给后台）
+    }
+    return config;
+  },
+  error =&gt; {
+    return Promise.reject(error);
+  }
+);
+
+//添加响应拦截器
+axios.interceptors.response.use(
+  response =&gt; {
+　　//逻辑处理
+    if(response.data.errorCode == -1){ //后端反回的状态值，本应该errorCode是status
+      Message({
+        type:'warning',
+        duration:1500,
+        showClose: true,
+        message:'当前登录已失效，请从新登录！'
+      })
+      router.push(&quot;/logon&quot;)//让用户从新回到登录页面
+    }
+    return response;
+  },
+  error =&gt; {
+　　closeLoading() //请求超时清除加载动画
+    return Promise.resolve(error.response);
+  }
+);
+
+
+axios.defaults.baseURL = &quot;http://10.26.41.181:8081/nei&quot;;    // 开发
+
+axios.defaults.headers.post[&quot;Content-Type&quot;] = &quot;application/json&quot;;
+axios.defaults.headers.post[&quot;X-Requested-With&quot;] = &quot;XMLHttpRequest&quot;;
+axios.defaults.timeout = 6000; //设置请求超时时间
+
+function checkStatus(response) {
+  return new Promise((resolve, reject) =&gt; {
+    if(response &amp;&amp; (response.status === 200 || response.status === 304 || response.status === 400)){
+　　　try{
+　　　　　closeLoading() //关闭加载动画
+      }catch(e){
+　　     //抛出异常
+        console.log(e)
+      }
+      resolve(response.data);
+    }else{
+　　　 try{
+        closeLoading() //关闭加载动画
+      }catch(e){
+        //抛出异常
+        console.log(e)
+      }
+      Message({
+        type:'error',
+        showClose: true,
+        message:'网络异常，请检查网络连接是否正常！'
+      })
+    }
+  });
+}
+
+export default {
+  post(url, params) {
+    return axios({
+      method: &quot;post&quot;,
+      url,
+      data: params
+    }).then(response =&gt; {
+      return checkStatus(response);
+    });
+  },
+  get(url, params) {
+    params = qs.stringify(params);
+    return axios({
+      method: &quot;get&quot;,
+      url,
+      params
+    }).then(response =&gt; {
+      return checkStatus(response);
+    });
+  }
+};
+//  使用：在main.js里面引入这个文件，并挂载到vue原型上，这样可以通过this.xxxx去拿到
+
+import axios from './api/api.js'   //引入axios文件夹
+Vue.prototype.$axios = axios;   //挂载到整个Vue原型上
+//  axios 的使用：在需要请求的页面如下引用
+
+//post请求
+this.$axios.post('url',{key:value}).then(res =&gt;{
+   cons.log(res,'后端返回数据') 
+})
+//get请求
+this.$axios.get('url?key=value').then(res =&gt;{
+   cons.log(res,'后端返回数据') 
+})
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://weige66.github.io/tag/AvgAZFDNQ/" class="tag">
+                    axios
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://weige66.github.io/nodejs-bi-ji-yi/">
+                  <h3 class="post-title">
+                    Nodejs笔记（一）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
