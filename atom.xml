@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://weige66.github.io/</id>
     <title>正威</title>
-    <updated>2020-09-28T09:32:26.082Z</updated>
+    <updated>2020-11-19T07:25:00.167Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://weige66.github.io/"/>
     <link rel="self" href="https://weige66.github.io/atom.xml"/>
@@ -11,6 +11,247 @@
     <logo>https://weige66.github.io/images/avatar.png</logo>
     <icon>https://weige66.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 正威</rights>
+    <entry>
+        <title type="html"><![CDATA[vue项目生成随机验证码]]></title>
+        <id>https://weige66.github.io/vue-xiang-mu-sheng-cheng-sui-ji-yan-zheng-ma/</id>
+        <link href="https://weige66.github.io/vue-xiang-mu-sheng-cheng-sui-ji-yan-zheng-ma/">
+        </link>
+        <updated>2020-11-19T06:13:14.000Z</updated>
+        <summary type="html"><![CDATA[<p>前端通过html5的 <code>&lt;canvas&gt;</code> 标签来绘制随机验证码。<br>
+<code>&lt;canvas&gt;</code>的使用方法可以百度搜索<strong>HTML5菜鸟教程</strong></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>前端通过html5的 <code>&lt;canvas&gt;</code> 标签来绘制随机验证码。<br>
+<code>&lt;canvas&gt;</code>的使用方法可以百度搜索<strong>HTML5菜鸟教程</strong></p>
+<!-- more -->
+<p>创建一个组建页面</p>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;div class=&quot;canvas&quot;&gt;
+    &lt;canvas id=&quot;canvas&quot; :width=&quot;canvasWidth&quot; :height=&quot;canvasHeight&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default {
+    name: &quot;Canvas&quot;,
+    props: {
+        // 设置画布的默认属性
+        fresh: true,
+        fontSizeMin: {
+        type: Number,
+        default: 20
+        },
+        fontSizeMax: {
+        type: Number,
+        default: 36
+        },
+        backgroundColorMin: {
+        type: Number,
+        default: 180
+        },
+        backgroundColorMax: {
+        type: Number,
+        default: 240
+        },
+        colorMin: {
+        type: Number,
+        default: 50
+        },
+        colorMax: {
+        type: Number,
+        default: 160
+        },
+        lineColorMin: {
+        type: Number,
+        default: 40
+        },
+        lineColorMax: {
+        type: Number,
+        default: 180
+        },
+        dotColorMin: {
+        type: Number,
+        default: 0
+        },
+        dotColorMax: {
+        type: Number,
+        default: 255
+        },
+        canvasWidth: {
+        type: Number,
+        default: 112
+        },
+        canvasHeight: {
+        type: Number,
+        default: 38
+        }
+  },
+  data() {
+        reruen {
+            generatedCodes: &quot;abcdefghijklmnopgrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;，
+            generatedCode： “”
+        }
+    },
+  methods: {
+     // 生成一个随机数
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+     // 生成一个随机的颜色
+    randomColor(min, max) {
+      let r = this.randomNum(min, max);
+      let g = this.randomNum(min, max);
+      let b = this.randomNum(min, max);
+      return &quot;rgb(&quot; + r + &quot;,&quot; + g + &quot;,&quot; + b + &quot;)&quot;;
+    },
+    // 显示图片
+    drawPic() {
+      let canvas = document.getElementById(&quot;canvas&quot;);
+      let ctx = canvas.getContext(&quot;2d&quot;);
+      ctx.textBaseline = &quot;bottom&quot;;  //文本对齐方式
+      // 绘制背景
+      ctx.fillStyle = this.randomColor(
+        this.backgroundColorMin,
+        this.backgroundColorMax
+      );
+      ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+      // 绘制文字
+      for (let i = 0; i &lt; this.generatedCode.length; i++) {
+        this.drawText(ctx, this.generatedCode[i], i);
+      }
+      this.drawDot(ctx);
+    },
+    // 绘制文字
+    drawText(ctx, txt, i) {
+      ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax);
+      ctx.font =
+        this.randomNum(this.fontSizeMin, this.fontSizeMax) + &quot;px SimHei&quot;;
+      let x = (i + 1) * (this.canvasWidth / (this.generatedCode.length + 1));
+      let y = this.randomNum(this.fontSizeMax, this.canvasHeight - 5);
+      var deg = this.randomNum(-10, 10);
+      // 修改坐标原点和旋转角度
+      ctx.translate(x, y);
+      ctx.rotate((deg * Math.PI) / 180);
+      ctx.fillText(txt, 0, 0);
+      // 恢复坐标原点和旋转角度
+      ctx.rotate((-deg * Math.PI) / 180);
+      ctx.translate(-x, -y);
+    },
+    // 画线
+    drawLine(ctx) {
+      //     绘制干扰线
+      for (let i = 0; i &lt; 3; i++) {
+        ctx.strokeStyle = this.randomColor(
+          this.lineColorMin,
+          this.lineColorMax
+        );
+        ctx.beginPath();
+        ctx.moveTo(
+          this.randomNum(0, this.canvasWidth),
+          this.randomNum(0, this.canvasHeight)
+        );
+        ctx.lineTo(
+          this.randomNum(0, this.canvasWidth),
+          this.randomNum(0, this.canvasHeight)
+        );
+        ctx.stroke();
+      }
+    }, drawDot(ctx) {
+      // 绘制干扰点
+      for (let i = 0; i &lt; 30; i++) {
+        ctx.fillStyle = this.randomColor(0, 255);
+        ctx.beginPath();
+        ctx.arc(
+          this.randomNum(0, this.canvasWidth),
+          this.randomNum(0, this.canvasHeight),
+          1,
+          0,
+          2 * Math.PI
+        );
+        ctx.fill();
+      }
+    },
+    // 生成四位随机验证码
+    makeCode(o, l) {
+      this.identifyCode = &quot;&quot;;
+      for (let i = 0; i &lt; l; i++) {
+        this.generatedCode += this.generatedCodes[
+          this.randomNum(0, this.generatedCodes.length)
+        ];
+      }
+
+      //绘制图片
+      this.drawPic();
+
+      //传值给父组件
+      this.$emit(&quot;makedCode&quot;, this.generatedCode);
+    }
+  }，
+   watch: {
+    fresh() {
+      //监听事件
+      this.makeCode(generatedCodes, 4);
+    }
+  }
+}
+&lt;/script&gt;
+
+</code></pre>
+<p>组件调用</p>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;input type=&quot;text&quot; v-model=&quot;value&quot; /&gt;
+    &lt;button @click=&quot;getlogin&quot;&gt;确定&lt;/button&gt;
+    &lt;hr /&gt;
+    &lt;div class=&quot;code&quot; @click=&quot;refreshCode&quot;&gt;
+        &lt;!-- ：fresh：父组件向子组件传送刷新验证码的信号；@makedCode：子组件向父组件传送验证码的值--&gt;
+      &lt;s-identify :fresh=&quot;flag&quot; @makedCode=&quot;getMakedCode&quot;&gt;&lt;/s-identify&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+      &lt;s-identify :fresh=&quot;flag&quot; @makedCode=&quot;getMakedCode&quot;&gt;&lt;/s-identify&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+import Canvas from &quot;./components/Canvas&quot;;
+export default {
+  name: &quot;Home&quot;,
+  data() {
+    return {
+      flag: true, //该值变化，就会触发刷新
+      code: &quot;&quot;, //刷新后的验证码
+      value: &quot;&quot;
+    }
+  },
+  components: {
+    Canvas
+  },
+  // 验证码初始化
+  mounted() {
+    this.flag = !this.flag;
+  },
+  methods: {
+    getlogin() {
+      if (this.value === this.code) {
+        alert(&quot;验证成功！&quot;)
+      } else {
+        alert(&quot;验证失败！&quot;)
+      }
+    },
+    // 切换验证码
+    refreshCode() {
+      this.flag = !this.flag;
+    },
+    getMakedCode(code) {
+      this.code = code;
+    },
+  },
+}
+&lt;/script&gt;
+
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[封装axios]]></title>
         <id>https://weige66.github.io/feng-zhuang-axios/</id>
